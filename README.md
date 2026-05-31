@@ -12,22 +12,6 @@ all of that behind one clean, unified view.
                                                           ──►  Provider C  (Cobalt Directory)
 ```
 
-## Your task
-
-Turn the proxy and the frontend into a working app that:
-
-1. **Fetches** employees from all three Providers.
-2. **Normalizes** each Provider's response into a single canonical employee model
-   that *you* design. The frontend should never have to know which Provider a record
-   came from.
-3. **Resolves duplicates.** The same real person can appear in more than one Provider,
-   in different shapes and with slightly inconsistent data. Detect those, merge them
-   into one record, and keep track of which Provider(s) each record came from.
-4. **Displays** the unified list of employees in the frontend.
-
-How you structure the code, what your canonical model looks like, and how you resolve
-conflicts when Providers disagree are all up to you — be ready to explain your choices.
-
 ## What's provided vs. what you build
 
 | Component | State | Who builds it |
