@@ -46,9 +46,9 @@ function EmployeeDashboard() {
   const filtered = response?.data.filter(emp => {
     if (!search) return true
     const q = search.toLowerCase()
+    const fullName = `${emp.first_name} ${emp.last_name}`.toLowerCase()
     return (
-      emp.first_name.toLowerCase().includes(q) ||
-      emp.last_name.toLowerCase().includes(q) ||
+      fullName.includes(q) ||
       emp.email.toLowerCase().includes(q) ||
       emp.department.toLowerCase().includes(q) ||
       emp.job_title.toLowerCase().includes(q)
