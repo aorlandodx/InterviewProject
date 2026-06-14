@@ -1,5 +1,4 @@
 import { Users, UserCheck, UserMinus, Clock } from 'lucide-react'
-import { Badge } from './badge'
 import { cn } from '#/lib/utils'
 import type { Employee } from './employee-table'
 
@@ -27,15 +26,15 @@ function StatCard({
     className?: string
     }) {
     return (
-        <div className="bg-white rounded-lg border border-gray-200 p-5 flex items-center gap-4">
+    <div className="bg-white rounded-lg border border-gray-200 p-5 flex items-center gap-4">
         <div className={cn('p-2 rounded-lg', className)}>
-            <Icon className="w-5 h-5" />
+        <Icon className="w-5 h-5" />
         </div>
         <div>
-            <p className="text-2xl font-semibold text-gray-900">{value.toLocaleString()}</p>
-            <p className="text-sm text-gray-500">{label}</p>
+        <p className="text-2xl font-semibold text-gray-900">{value.toLocaleString()}</p>
+        <p className="text-sm text-gray-500">{label}</p>
         </div>
-        </div>
+    </div>
     )
 }
 
@@ -45,51 +44,69 @@ export function MetricsCards({ employees, providers, partial }: MetricsCardsProp
     const inactive = employees.filter(e => e.status === 'inactive').length
 
     return (
-        <div className="space-y-4">
-        {/* Provider status bar */}
-        {partial && (
-            <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-3 text-sm text-yellow-800">
+    <div className="space-y-4">
+        {/* Partial data warning */}
+        {partial && !Object.values(providers).every(s => s === 'error') && (
+        <div className="flex items-center gap-2 bg-yellow-50 border border-yellow-200 rounded-lg px-4 py-3 text-sm text-yellow-800">
             <Clock className="w-4 h-4 shrink-0" />
-            <span>Partial data — one or more providers are unavailable. Showing available results.</span>
-            </div>
+            <span>
+            Partial data —{' '}
+            {Object.values(providers).filter(s => s === 'error').length} of 3 providers unavailable.
+            Showing available results.
+            </span>
+        </div>
         )}
 
+        {/* Stat cards */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-            <StatCard
+        <StatCard
             label="Total employees"
             value={employees.length}
             icon={Users}
             className="bg-blue-50 text-blue-600"
-            />
-            <StatCard
+        />
+        <StatCard
             label="Active"
             value={active}
             icon={UserCheck}
             className="bg-green-50 text-green-600"
-            />
-            <StatCard
+        />
+        <StatCard
             label="On leave"
             value={onLeave}
             icon={Clock}
             className="bg-yellow-50 text-yellow-600"
-            />
-            <StatCard
+        />
+        <StatCard
             label="Inactive"
             value={inactive}
             icon={UserMinus}
             className="bg-red-50 text-red-600"
-            />
+        />
         </div>
 
         {/* Provider status indicators */}
         <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-xs text-gray-500 font-medium">Providers:</span>
-            {Object.entries(providers).map(([name, status]) => (
-            <Badge key={name} variant={status as 'ok' | 'error'}>
-                {name} — {status}
-            </Badge>
-            ))}
+        <span className="text-xs text-gray-500 font-medium">Providers:</span>
+        {Object.entries(providers).map(([name, status]) => (
+            <div
+            key={name}
+            className={cn(
+                'inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium border',
+                status === 'ok'
+                ? 'bg-green-50 text-green-700 border-green-200'
+                : 'bg-red-50 text-red-700 border-red-200'
+            )}
+            >
+            <span className={cn(
+                'w-1.5 h-1.5 rounded-full',
+                status === 'ok' ? 'bg-green-500' : 'bg-red-500'
+            )} />
+            <span className="capitalize">{name}</span>
+            <span>{status === 'ok' ? '✓' : '✗'}</span>
+            </div>
+        ))}
         </div>
-        </div>
+    </div>
     )
 }

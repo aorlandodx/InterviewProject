@@ -51,7 +51,11 @@ function EmployeeDashboard() {
       fullName.includes(q) ||
       emp.email.toLowerCase().includes(q) ||
       emp.department.toLowerCase().includes(q) ||
-      emp.job_title.toLowerCase().includes(q)
+      emp.job_title.toLowerCase().includes(q) ||
+      emp.id.toLowerCase().includes(q) ||
+      emp.source_ids.cobalt?.toLowerCase().includes(q) ||
+      String(emp.source_ids.beacon ?? '').includes(q) ||
+      emp.source_ids.atlas?.toLowerCase().includes(q)
     )
   }) ?? []
 
@@ -69,15 +73,21 @@ function EmployeeDashboard() {
 
         {/* Error state */}
         {error && (
-          <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800">
-            Could not load employee data: {error}
+          <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800 flex items-center gap-2">
+            <span>Could not connect to any HR provider. Please try again later.</span>
+          </div>
+        )}
+
+        {!error && response && Object.values(response.meta.providers).every(s => s === 'error') && (
+          <div className="bg-red-50 border border-red-200 rounded-lg px-4 py-3 text-sm text-red-800 flex items-center gap-2">
+            <span>All HR providers are currently unavailable. No employee data can be displayed.</span>
           </div>
         )}
 
         {/* Metrics */}
         {response && (
           <MetricsCards
-            employees={filtered}
+            employees={response.data}
             providers={response.meta.providers}
             partial={response.meta.partial}
           />

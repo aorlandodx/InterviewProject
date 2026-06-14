@@ -183,18 +183,24 @@ export function EmployeeTable({ data, isLoading }: EmployeeTableProps) {
                 ))}
             </thead>
             <tbody className="divide-y divide-gray-100 bg-white">
-                {table.getRowModel().rows.map(row => (
-                <tr
-                    key={row.id}
-                    className="hover:bg-gray-50 transition-colors"
-                >
+            {table.getRowModel().rows.length === 0 ? (
+                <tr>
+                <td colSpan={columns.length} className="px-4 py-12 text-center text-gray-400">
+                    <p className="font-medium">No employees found</p>
+                    <p className="text-xs mt-1">Try adjusting your search term</p>
+                </td>
+                </tr>
+            ) : (
+                table.getRowModel().rows.map(row => (
+                <tr key={row.id} className="hover:bg-gray-50 transition-colors">
                     {row.getVisibleCells().map(cell => (
                     <td key={cell.id} className="px-4 py-3 text-gray-700">
                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </td>
                     ))}
                 </tr>
-                ))}
+                ))
+            )}
             </tbody>
             </table>
         </div>
