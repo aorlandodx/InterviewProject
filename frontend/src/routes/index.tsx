@@ -63,7 +63,7 @@ function EmployeeDashboard() {
         <div>
           <h1 className="text-2xl font-semibold text-gray-900">Employee Directory</h1>
           <p className="text-sm text-gray-500 mt-1">
-            Unified view across Atlas, Beacon, and Cobalt HR providers
+            Employee data aggregated from HR providers: Atlas, Beacon and Cobalt
           </p>
         </div>
 

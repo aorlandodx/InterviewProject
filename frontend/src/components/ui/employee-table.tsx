@@ -125,6 +125,33 @@ export function EmployeeTable({ data, isLoading }: EmployeeTableProps) {
 
     return (
         <div className="space-y-4">
+
+        {/* Pagination */}
+        <div className="flex items-center justify-between text-sm text-gray-500">
+            <span>
+            Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}–
+            {Math.min(
+                (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
+                data.length
+            )} of {data.length} employees
+            </span>
+            <div className="flex gap-2">
+            <button
+                onClick={() => table.previousPage()}
+                disabled={!table.getCanPreviousPage()}
+                className="px-3 py-1 rounded border border-gray-200 disabled:opacity-40 hover:bg-gray-50 transition-colors"
+            >
+                Previous
+            </button>
+            <button
+                onClick={() => table.nextPage()}
+                disabled={!table.getCanNextPage()}
+                className="px-3 py-1 rounded border border-gray-200 disabled:opacity-40 hover:bg-gray-50 transition-colors"
+            >
+                Next
+            </button>
+            </div>
+        </div>
         <div className="rounded-lg border border-gray-200 overflow-hidden">
             <table className="w-full text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">
@@ -172,15 +199,7 @@ export function EmployeeTable({ data, isLoading }: EmployeeTableProps) {
             </table>
         </div>
 
-        {/* Pagination */}
-        <div className="flex items-center justify-between text-sm text-gray-500">
-            <span>
-            Showing {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}–
-            {Math.min(
-                (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
-                data.length
-            )} of {data.length} employees
-            </span>
+        <div className="flex items-center justify-end text-sm text-gray-500">
             <div className="flex gap-2">
             <button
                 onClick={() => table.previousPage()}
@@ -196,8 +215,9 @@ export function EmployeeTable({ data, isLoading }: EmployeeTableProps) {
             >
                 Next
             </button>
-            </div>
         </div>
+        </div>
+            
         </div>
     )
 }
