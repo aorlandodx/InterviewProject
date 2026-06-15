@@ -114,10 +114,10 @@ def health() -> dict:
 @app.get("/employees", response_model=EmployeeListResponse)
 async def list_employees(
     page: int = Query(default=1, ge=1, description="Página (1-based)"),
-    page_size: int = Query(default=20, ge=1, le=100, description="Empleados por página"),
+    page_size: int = Query(default=20, ge=1, le=2000, description="Empleados por página"),
 ):
-    if page_size > 100:
-        raise InvalidQueryParam("page_size", "el máximo permitido es 100")
+    if page_size > 2000:
+        raise InvalidQueryParam("page_size", "el máximo permitido es 2000")
 
     employees_by_provider, provider_status = await _fetch_all()
 
